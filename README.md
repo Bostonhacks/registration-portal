@@ -5,18 +5,18 @@ BostonHacks Hackathon Registration Portal
 An open-source customizable web application built using the MEAN stack to manage and admit hackathon applicants!
 
 # Features
-- [] Applicant sign in and application questions
-- [] Admission status
-- [] Admin portal to manage applicants
-- [] Multiple privilage levels for admins and organizers
-- [] Advanced applicant sorting
-    - [] Geographic
-    - [] Gender
-    - [] Class year
-    - [] Team
-- [] Travel info
-- [] Applicant and event statistics
-- [] Day of check-in
+- [ ] Applicant sign in and application questions
+- [ ] Admission status
+- [ ] Admin portal to manage applicants
+- [ ] Multiple privilage levels for admins and organizers
+- [ ] Advanced applicant sorting
+    - [ ] Geographic
+    - [ ] Gender
+    - [ ] Class year
+    - [ ] Team
+- [ ] Travel info
+- [ ] Applicant and event statistics
+- [ ] Day of check-in
 
 # Forking For Your Own Event!
 More information regarding forking and deploying for your own event will come when the project is usable.
