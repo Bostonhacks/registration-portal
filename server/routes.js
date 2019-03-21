@@ -1,10 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-function handleRoot(req, resp) {
-  resp.redirect(req.baseUrl + '/index.html');
-}
-
-router.get('/*', handleRoot);
+// Redirect all trafic to home page
+router.get('/*', (req, resp) => resp.redirect(req.baseUrl + '/index.html'));
 
 module.exports = router;
