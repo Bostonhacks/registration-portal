@@ -7,4 +7,4 @@ const applicantSchema = mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('Applicant', applicantSchema);
+module.exports = mongoose.model('Applicant', applicantSchema, 'Applicants');
