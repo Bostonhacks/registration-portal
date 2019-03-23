@@ -3,9 +3,7 @@ const routes = require('./routes');
 const dbConfig = require('./database.config');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
-// set running ports
-let serverPort = process.env.PORT || 3000;
+const config = require('./config');
 
 // create express app
 const app = express();
@@ -23,16 +21,16 @@ app.use('/', routes);
 mongoose.Promise = global.Promise;
 
 // connect to MongoDB
-mongoose.connect(dbConfig.url, {
+mongoose.connect(config.dbUri, {
   useNewUrlParser: true
 }).then(
-  () => console.log(`Connected to MongoDB on port ${dbConfig.dbPort}`)
+  () => console.log(`Connected to MongoDB on port ${config.dbPort}`)
 ).catch(err => {
-  console.log('Failed to connect to MongoDB\n Exiting...', err);
+  console.log(`Failed to connect to MongoDB at ${config.dbUri}\n Exiting...`, err);
   process.exit(1);
 });
 
 // listen for requests
-app.listen(serverPort);
+app.listen(config.serverPort);
 
-console.log(`server running on port ${serverPort}`);
+console.log(`server running on port ${config.serverPort}`);
