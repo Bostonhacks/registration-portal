@@ -31,9 +31,14 @@ function deleteOne(req, res) {
 
 }
 
+function updateOne(req, res) {
+
+}
+
 module.exports = {
   create: create,
   findAll: findAll,
   findOne: findOne,
   deleteOne: deleteOne,
+  updateOne: updateOne,
 };
