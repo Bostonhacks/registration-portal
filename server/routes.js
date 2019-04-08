@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const applicants = require('./controllers/applicant.controller')
+const organizers = require('./controllers/organizer.controller')
 
 // specify api routes for applicants
 router.get('/api/applicants', applicants.findAll);
@@ -17,6 +18,6 @@ router.delete('/api/organizers/:organizerId', organizers.deleteOne);
 router.put('/api/organizers/:organizerId', organizers.updateOne);
 
 // redirect all trafic to home page
-router.get('/', (req, resp) => resp.redirect(req.baseUrl + '/index.html'));
+router.get('/', (req, resp) => resp.redirect(req.baseUrl + '/welcome.html'));
 
 module.exports = router;
