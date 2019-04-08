@@ -11,5 +11,5 @@ module.exports = {
   dbPort: dbPort,
   database: database,
   dbUri: `mongodb://localhost:${dbPort}/${database}`,
-  secret: process.env.SECRET || 'PLACEHOLDER_SECRET_PLS_REPLACE',
+  secret: process.env.SECRET,
 };
