@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const applicants = require('./controllers/applicant.controller')
-const organizers = require('./controllers/organizer.controller')
+const applicants = require('./controllers/applicant.controller');
+const organizers = require('./controllers/organizer.controller');
+const questions = require('./controllers/question.controller');
 
 // specify api routes for applicants
 router.get('/api/applicants', applicants.findAll);
@@ -16,6 +17,9 @@ router.post('/api/organizers', organizers.create);
 router.get('/api/organizers/:organizerId', organizers.findOne);
 router.delete('/api/organizers/:organizerId', organizers.deleteOne);
 router.put('/api/organizers/:organizerId', organizers.updateOne);
+
+// specify api routes for application questions
+router.get('/api/questions', questions.findAll);
 
 // redirect all trafic to home page
 router.get('/', (req, resp) => resp.redirect(req.baseUrl + '/welcome.html'));
