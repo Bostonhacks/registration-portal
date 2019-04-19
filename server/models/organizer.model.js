@@ -4,6 +4,7 @@ const organizerSchema = mongoose.Schema({
   firstName: String,
   lastName: String,
   email: String,
+  passwordHash: String,
   admin: Boolean,
   checkIn: Boolean,
   admission: Boolean,
