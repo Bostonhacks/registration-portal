@@ -1,5 +1,8 @@
 # Registration Portal
-BostonHacks Hackathon Registration Portal
+### BostonHacks Hackathon Registration Portal
+
+### Build Status:
+[![CircleCI](https://circleci.com/gh/Bostonhacks/registration-portal.svg?style=svg)](https://circleci.com/gh/Bostonhacks/registration-portal)
 
 # Description
 An open-source customizable web application built using the MEAN stack to manage and admit hackathon applicants!
