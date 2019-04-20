@@ -23,8 +23,10 @@ mongoose.Promise = global.Promise;
 mongoose.connect(config.dbUri, {
   useNewUrlParser: true
 }).then(
-  () => console.log(`Connected to MongoDB on port ${config.dbPort}`)
-).catch(err => {
+  () => {
+    console.log(`Connected to MongoDB on port ${config.dbPort}`);
+    require('./admin-seed');
+  }).catch(err => {
   console.log(`Failed to connect to MongoDB at ${config.dbUri}\n Exiting...`, err);
   process.exit(1);
 });
