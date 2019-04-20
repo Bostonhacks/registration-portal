@@ -30,6 +30,6 @@ mongoose.connect(config.dbUri, {
 });
 
 // listen for requests
-app.listen(config.serverPort);
+module.exports = app.listen(config.serverPort);
 
 console.log(`server running on port ${config.serverPort}`);

@@ -1,9 +1,18 @@
 // load enviroment variables from '../.env' file
 require('dotenv').config({ path: '../.env' });
 
+var database;
+
+// check if we're running a dev or production instance
+const appEnv = process.env.APP_ENV || 'dev';
+if(appEnv === 'dev') {
+  database = process.env.DB_TEST_NAME || 'registrationTest';
+} else {
+  database = process.env.DB_NAME || 'registration';
+}
+
 // set constants for port and dbname so they can be used in string substitution
 const dbPort = process.env.DB_PORT || 27017;
-const database = process.env.DB_NAME || 'registration';
 
 // export all relevant information
 module.exports = {
