@@ -32,7 +32,7 @@ function create(req, res) {
 
   // store applicant in Mongo
   organizer.save()
-  .then(data => res.send(data))
+  .then(data => res.send({success: true}))
   .catch(err => res.status(500).send({message: err.message}));
 
 }
