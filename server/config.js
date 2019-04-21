@@ -3,10 +3,12 @@ require('dotenv').config({ path: '../.env' });
 
 var database;
 
-// check if we're running a dev or production instance
-const appEnv = process.env.APP_ENV || 'dev';
-if(appEnv === 'dev') {
-  database = process.env.DB_TEST_NAME || 'registrationTest';
+// check if we're running a dev, test or production instance
+const nodeEnv = process.env.NODE_ENV || 'dev';
+if(nodeEnv === 'dev') {
+  database = process.env.DB_TEST_NAME || 'registrationDev';
+} else if(nodeEnv === 'test') {
+  database = 'registrationTest';
 } else {
   database = process.env.DB_NAME || 'registration';
 }
@@ -21,4 +23,5 @@ module.exports = {
   database: database,
   dbUri: `mongodb://localhost:${dbPort}/${database}`,
   secret: process.env.SECRET,
+  nodeEnv: nodeEnv,
 };

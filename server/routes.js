@@ -17,24 +17,13 @@ router.put('/api/applicants/:applicantId', applicants.updateOne);
 
 // specify api routes for organizers
 router.get('/api/organizers', organizers.findAll);
-router.post('/api/organizers', organizers.create);
+router.post('/api/organizers', auth.checkToken, organizers.isAdmin, organizers.create);
 router.get('/api/organizers/:organizerId', organizers.findOne);
 router.delete('/api/organizers/:organizerId', organizers.deleteOne);
 router.put('/api/organizers/:organizerId', organizers.updateOne);
 
 // specify api routes for application questions
 router.get('/api/questions', questions.findAll);
-
-// test endpoint to see if the token was correctly encoding all data, will remove later
-router.get('/testToken', auth.checkToken, (req, res) => {
-    let email = req.decoded.email;
-    if(email) {
-        console.log(email);
-        res.redirect(req.baseUrl + '/welcome.html');
-    } else {
-        console.log("NO EMAIL FOUND");
-    }
-});
 
 // redirect all trafic to home page
 router.get('/', (req, resp) => resp.redirect(req.baseUrl + '/welcome.html'));

@@ -19,7 +19,6 @@ function checkToken(req, res, next) {
             return res.json({success: false, message: 'Token is not valid'});
         } else {
             req.decoded = decoded;
-            console.log(decoded);
             next();
         }
     });
@@ -36,11 +35,16 @@ function authenticateApplicant(req, res, applicant) {
 // authenticates an organizer and sends back their JWT token
 function authenticateOrganizer(req, res, organizer) {
     if(!(bcrypt.compareSync(req.body.password, organizer.passwordHash))) {
-        return res.status(400).send({success: false, message: 'Incorrect Password'});
+        return res.status(403).send({success: false, message: 'Incorrect Password'});
     }
 
-    console.log(req.body.email);
-    let token = jwt.sign({email: req.body.email}, config.secret, {expiresIn: '24h'});
+    let token = jwt.sign({
+        email: req.body.email, 
+        admin: organizer.admin, 
+        checkIn: organizer.checkIn, 
+        admission: organizer.admission}, 
+        config.secret, 
+        {expiresIn: '24h'});
 
     res.json({
         success: true,
@@ -65,7 +69,7 @@ async function login(req, res) {
     else {
         var applicant = await applicantModel.findOne({'email': email});
         if(!applicant) {
-            return res.status(400).send({success: false, message: 'No applicant or organizer with that email found'})
+            return res.status(404).send({success: false, message: 'No applicant or organizer with that email found'})
         }
         return authenticateApplicant(req, res, applicant);
     }

@@ -1,8 +1,15 @@
 const organizerModel = require('../models/organizer.model');
 const bcrypt = require('bcrypt');
 
-// TODO: Lock this endpoint down so only the admin can create a user 
-// and make sure nobody with that email exists as an organizer or applicant before creating
+function isAdmin(req, res, next) {
+  if(req.decoded.admin) {
+    next();
+  } else {
+    res.status(400).send({success: false, message: 'Not an admin'});
+  }
+}
+
+// TODO: make sure nobody with that email exists as an organizer or applicant before creating
 function create(req, res) {
   let firstName = req.body.firstName;
   let lastName = req.body.lastName;
@@ -54,6 +61,7 @@ function updateOne(req, res) {
 }
 
 module.exports = {
+  isAdmin: isAdmin,
   create: create,
   findAll: findAll,
   findOne: findOne,
