@@ -1,5 +1,5 @@
 // Handles all functions needed for JWT auth
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const organizerModel = require('./models/organizer.model');
 const applicantModel = require('./models/applicant.model');
@@ -7,75 +7,82 @@ const config = require('./config');
 
 // Checks that the token is valid and if so passes the request and response onto the callback function
 function checkToken(req, res, next) {
-    let token = req.headers['x-access-token'] || req.headers['authorization'];
-    if(!token) {
-        return res.json({success: false, message: 'Failed to supply Auth token'});
+  let token = req.headers['x-access-token'] || req.headers['authorization'];
+  if (!token) {
+    res.json({ success: false, message: 'Failed to supply Auth token' });
+    return;
+  }
+  if (token.startsWith('Bearer ')) {
+    token = token.slice(7, token.length);
+  }
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if (err) {
+      res.json({ success: false, message: 'Token is not valid' });
+      return;
     }
-    if (token.startsWith('Bearer ')) {
-      token = token.slice(7, token.length);
-    }
-    jwt.verify(token, config.secret, (err, decoded) => {
-        if (err) {
-            return res.json({success: false, message: 'Token is not valid'});
-        } else {
-            req.decoded = decoded;
-            next();
-        }
-    });
+    req.decoded = decoded;
+    next();
+  });
 }
 
 // TODO: authenticate applicant
 function authenticateApplicant(req, res, applicant) {
-     if(!(bcrypt.compareSync(req.body.password, applicant.passwordHash))) {
-         return res.status(400).send({success: false, message: 'Incorrect Password'});
-     }
-    
+  if (!bcrypt.compareSync(req.body.password, applicant.passwordHash)) {
+    res.status(400).send({ success: false, message: 'Incorrect Password' });
+  }
 }
 
 // authenticates an organizer and sends back their JWT token
 function authenticateOrganizer(req, res, organizer) {
-    if(!(bcrypt.compareSync(req.body.password, organizer.passwordHash))) {
-        return res.status(403).send({success: false, message: 'Incorrect Password'});
-    }
+  if (!bcrypt.compareSync(req.body.password, organizer.passwordHash)) {
+    res.status(403).send({ success: false, message: 'Incorrect Password' });
+    return;
+  }
 
-    let token = jwt.sign({
-        email: req.body.email, 
-        admin: organizer.admin, 
-        checkIn: organizer.checkIn, 
-        admission: organizer.admission}, 
-        config.secret, 
-        {expiresIn: '24h'});
+  const token = jwt.sign(
+    {
+      email: req.body.email,
+      admin: organizer.admin,
+      checkIn: organizer.checkIn,
+      admission: organizer.admission
+    },
+    config.secret,
+    { expiresIn: '24h' }
+  );
 
-    res.json({
-        success: true,
-        message: 'Authentication Successful!',
-        token: token
-    });
+  res.json({
+    success: true,
+    message: 'Authentication Successful!',
+    token
+  });
 }
 
 // logs the user of applicant into the system and provides them with their JWT if their credentials are correct
 async function login(req, res) {
-    let email = req.body.email;
-    let password = req.body.password;
+  const { email, password } = req.body;
 
-    if(!email || !password) {
-        return res.status(400).send({success: false, message: 'Malformatted Input, no email or password'});
-    }
+  if (!email || !password) {
+    return res
+      .status(400)
+      .send({ success: false, message: 'Malformatted Input, no email or password' });
+  }
 
-    var organizer = await organizerModel.findOne({'email': email});
-    if(organizer) {
-        return authenticateOrganizer(req, res, organizer);
+  const organizer = await organizerModel.findOne({ email });
+  if (organizer) {
+    authenticateOrganizer(req, res, organizer);
+  } else {
+    const applicant = await applicantModel.findOne({ email });
+    if (!applicant) {
+      res
+        .status(404)
+        .send({ success: false, message: 'No applicant or organizer with that email found' });
+    } else {
+      authenticateApplicant(req, res, applicant);
     }
-    else {
-        var applicant = await applicantModel.findOne({'email': email});
-        if(!applicant) {
-            return res.status(404).send({success: false, message: 'No applicant or organizer with that email found'})
-        }
-        return authenticateApplicant(req, res, applicant);
-    }
-} 
+  }
+}
 
 module.exports = {
-    checkToken: checkToken,
-    login: login,
+  checkToken,
+  login
 };

@@ -8,7 +8,7 @@ const config = require('./config');
 const app = express();
 
 // add support for body parsing
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // serve directory that angular builds to
@@ -20,18 +20,20 @@ app.use('/', routes);
 mongoose.Promise = global.Promise;
 
 // connect to MongoDB
-mongoose.connect(config.dbUri, {
-  useNewUrlParser: true
-}).then(
-  () => {
+mongoose
+  .connect(config.dbUri, {
+    useNewUrlParser: true
+  })
+  .then(() => {
     console.log(`Server: connected to MongoDB on port ${config.dbPort} at ${config.database}`);
-    if(config.nodeEnv !== 'test') {
+    if (config.nodeEnv !== 'test') {
       require('./admin-seed').createAdmin();
     }
-  }).catch(err => {
-  console.log(`Failed to connect to MongoDB at ${config.dbUri}\n Exiting...`, err);
-  process.exit(1);
-});
+  })
+  .catch(err => {
+    console.log(`Failed to connect to MongoDB at ${config.dbUri}\n Exiting...`, err);
+    process.exit(1);
+  });
 
 // listen for requests
 module.exports = app.listen(config.serverPort);
