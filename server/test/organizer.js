@@ -32,6 +32,7 @@ describe('Organizers', () => {
             done();
           });
     });
+
     it('should create an organizer', (done) => {
       let organizer = {
         "firstName": "Bob",
@@ -53,9 +54,67 @@ describe('Organizers', () => {
             done();
           });
     });
+
+    it('should log in as new organizer', (done) => {
+      chai.request(server)
+      .post('/api/login')
+      .send({email: 'bob.alice@bu.edu', password: 'testpassword'})
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('success').eql(true);
+        res.body.should.have.property('token');
+        token = res.body.token;
+        done();
+      });
+    });
+
+    it('should fail to create an organizer with a missing field', (done) => {
+      let organizer = {
+        "firstName": "Bob",
+        "email": "bob.alice@bu.edu",
+        "password": "testpassword",
+        "admin": true,
+        "checkIn": true,
+        "admission": true,
+      };
+      chai.request(server)
+          .post('/api/organizers')
+          .set('Authorization', token)
+          .send(organizer)
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.should.be.a('object');
+            res.body.should.have.property('success').eql(false);
+            done();
+          });
+    });
+
+    it('should fail to create an organizer with an identical email', (done) => {
+      let organizer = {
+        "firstName": "Bob",
+        "lastName": "Alice2",
+        "email": "bob.alice@bu.edu",
+        "password": "testpassword",
+        "admin": true,
+        "checkIn": true,
+        "admission": true,
+      };
+      chai.request(server)
+          .post('/api/organizers')
+          .set('Authorization', token)
+          .send(organizer)
+          .end((err, res) => {
+            res.should.have.status(403);
+            res.body.should.be.a('object');
+            res.body.should.have.property('success').eql(false);
+            done();
+          });
+    });
+
   });
 
-  describe('/POST create an organizer', () => {
+  describe('Example new test suite', () => {
     
   });
 

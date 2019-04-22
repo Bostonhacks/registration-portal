@@ -6,7 +6,7 @@ var database;
 // check if we're running a dev, test or production instance
 const nodeEnv = process.env.NODE_ENV || 'dev';
 if(nodeEnv === 'dev') {
-  database = process.env.DB_TEST_NAME || 'registrationDev';
+  database = process.env.DB_DEV_NAME || 'registrationDev';
 } else if(nodeEnv === 'test') {
   database = 'registrationTest';
 } else {

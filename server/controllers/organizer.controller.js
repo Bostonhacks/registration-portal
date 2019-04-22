@@ -1,4 +1,5 @@
 const organizerModel = require('../models/organizer.model');
+const applicantModel = require('../models/applicant.model');
 const bcrypt = require('bcrypt');
 
 function isAdmin(req, res, next) {
@@ -9,7 +10,6 @@ function isAdmin(req, res, next) {
   }
 }
 
-// TODO: make sure nobody with that email exists as an organizer or applicant before creating
 function create(req, res) {
   let firstName = req.body.firstName;
   let lastName = req.body.lastName;
@@ -23,24 +23,38 @@ function create(req, res) {
     return res.status(400).send({success: false, message: "Malformed input"});
   }
 
-  // hash password
-  let passwordHash = bcrypt.hashSync(password, 10);
+  // Verify nobody exists as an applicant with that email
+  applicantModel.findOne({email: email}, (err, applicant) => {
+    if(applicant) {
+      return res.status(403).send({success: false, message: "applicant with that email already exists"});
+    }
+    // Verify nobody exists as an organizer with that email
+    organizerModel.findOne({email: email}, (err, duplicate) => {
+      if(duplicate) {
+        return res.status(403).send({success: false, message: "organizer with that email already exists"});
+      }
+      // If the email is unique, create the organizer
 
-  // create applicant object
-  const organizer = new organizerModel({
-    firstName: firstName, 
-    lastName: lastName,
-    email: email,
-    passwordHash: passwordHash,
-    admin: admin,
-    checkIn: checkIn,
-    admission: admission,
+      // hash password
+      let passwordHash = bcrypt.hashSync(password, 10);
+
+      // create applicant object
+      const organizer = new organizerModel({
+        firstName: firstName, 
+        lastName: lastName,
+        email: email,
+        passwordHash: passwordHash,
+        admin: admin,
+        checkIn: checkIn,
+        admission: admission,
+      });
+
+      // store applicant in Mongo
+      organizer.save()
+      .then(data => res.send({success: true}))
+      .catch(err => res.status(500).send({message: err.message}));
+    });
   });
-
-  // store applicant in Mongo
-  organizer.save()
-  .then(data => res.send({success: true}))
-  .catch(err => res.status(500).send({message: err.message}));
 
 }
 
