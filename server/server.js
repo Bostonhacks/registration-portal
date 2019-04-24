@@ -3,6 +3,7 @@ const routes = require('./routes');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const config = require('./config');
+const seed = require('./admin-seed');
 
 // create express app
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.static('../client'));
 app.use('/', routes);
 
 mongoose.Promise = global.Promise;
+mongoose.set('useFindAndModify', false);
 
 // connect to MongoDB
 mongoose
@@ -27,7 +29,7 @@ mongoose
   .then(() => {
     console.log(`Server: connected to MongoDB on port ${config.dbPort} at ${config.database}`);
     if (config.nodeEnv !== 'test') {
-      require('./admin-seed').createAdmin();
+      seed.createAdmin();
     }
   })
   .catch(err => {
