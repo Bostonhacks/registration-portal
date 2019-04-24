@@ -1,0 +1,9 @@
+{
+	"firstName": "admin",
+	"lastName": "adminpass",
+	"email": "admin@hackathon.com",
+	"password": "testpassword",
+	"admin": true,
+	"checkIn": true,
+	"admission": true
+}
