@@ -32,7 +32,15 @@ function create(req, res) {
     admission
   } = req.body;
   const email = String(emailAnycase).toLowerCase();
-  if (firstName && lastName && email && password && admin && checkIn && admission) {
+  if (
+    firstName &&
+    lastName &&
+    email &&
+    password &&
+    admin !== undefined &&
+    checkIn !== undefined &&
+    admission !== undefined
+  ) {
     // Validate email address
     if (!auth.isValidEmail(email)) {
       res.status(400).send({ success: false, message: 'email is invalid' });
@@ -124,17 +132,22 @@ function updateOne(req, res) {
   const updates = {};
   updates.firstName = req.body.firstName ? req.body.firstName : undefined;
   updates.lastName = req.body.lastName ? req.body.lastName : undefined;
-  updates.admin = req.body.isAdmin ? req.body.isAdmin : undefined;
-  updates.admission = req.body.admission ? req.body.admission : undefined;
-  updates.checkIn = req.body.checkIn ? req.body.checkIn : undefined;
-  OrganizerModel.findByIdAndUpdate(id, (err, organizer) => {
-    if (err) throw err;
-    if (organizer) {
-      res.send({ success: true, organizer });
-    } else {
-      res.send({ success: false, message: 'organizer does not exist' });
+  updates.admin = req.body.admin !== undefined ? req.body.admin : undefined;
+  updates.admission = req.body.admission !== undefined ? req.body.admission : undefined;
+  updates.checkIn = req.body.checkIn !== undefined ? req.body.checkIn : undefined;
+  OrganizerModel.findByIdAndUpdate(
+    id,
+    updates,
+    { new: true, omitUndefined: true },
+    (err, organizer) => {
+      if (err) throw err;
+      if (organizer) {
+        res.send({ success: true, organizer });
+      } else {
+        res.send({ success: false, message: 'organizer does not exist' });
+      }
     }
-  });
+  );
 }
 
 module.exports = {

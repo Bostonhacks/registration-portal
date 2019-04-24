@@ -65,9 +65,9 @@ describe('Organizers', () => {
         lastName: 'Alice',
         email: 'bob.alice@bu.edu',
         password: 'testpassword',
-        admin: true,
-        checkIn: true,
-        admission: true
+        admin: false,
+        checkIn: false,
+        admission: false
       };
       chai
         .request(server)
@@ -108,6 +108,7 @@ describe('Organizers', () => {
         });
     });
 
+    let unprivilegedToken = "";
     it('should log in as new organizer', done => {
       chai
         .request(server)
@@ -118,7 +119,7 @@ describe('Organizers', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('success').eql(true);
           res.body.should.have.property('token');
-          token = res.body.token;
+          unprivilegedToken = res.body.token;
           done();
         });
     });
@@ -180,6 +181,7 @@ describe('Organizers', () => {
         });
     });
 
+    let organizers = undefined;
     it('should query all created organizers', done => {
       chai
         .request(server)
@@ -190,8 +192,72 @@ describe('Organizers', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('success').eql(true);
           res.body.should.have.property('organizers');
+          organizers = res.body.organizers;
           done();
         });
+    });
+
+    it('should query the newly created organizer', done => {
+      let organizer = organizers.filter(organizer => organizer.email === 'bob.alice@bu.edu')[0];
+      chai
+        .request(server)
+        .get(`/api/organizers/${organizer._id}`)
+        .set('Authorization', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('success').eql(true);
+          res.body.should.have.property('organizer');
+          done();
+        });
+    });
+
+    it('should update the first and last name of the newly created organizer', done => {
+      let organizer = organizers.filter(organizer => organizer.email === 'bob.alice@bu.edu')[0];
+      chai
+      .request(server)
+      .put(`/api/organizers/${organizer._id}`)
+      .send({ firstName: 'newBob', lastName: 'newAlice' })
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('success').eql(true);
+        res.body.should.have.property('organizer');
+        res.body.organizer.firstName.should.be.eql('newBob');
+        done();
+      });
+    });
+
+    it('should update the admin privilages of the newly created organizer', done => {
+      let organizer = organizers.filter(organizer => organizer.email === 'bob.alice@bu.edu')[0];
+      chai
+      .request(server)
+      .put(`/api/organizers/${organizer._id}`)
+      .send({ admin: true })
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('success').eql(true);
+        res.body.should.have.property('organizer');
+        res.body.organizer.admin.should.be.eql(true);
+        done();
+      });
+    });
+
+    it('should fail to delete an organizer because of the privileges of the new organizer', done => {
+      let organizer = organizers.filter(organizer => organizer.email === 'bob.alice@bu.edu')[0];
+      chai
+      .request(server)
+      .delete(`/api/organizers/${organizer._id}`)
+      .set('Authorization', unprivilegedToken)
+      .end((err, res) => {
+        res.should.have.status(403);
+        res.body.should.be.a('object');
+        res.body.should.have.property('success').eql(false);
+        done();
+      });
     });
 
   });

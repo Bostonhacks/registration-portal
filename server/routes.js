@@ -31,7 +31,7 @@ router.delete(
   organizers.isAdmin,
   organizers.deleteOne
 );
-// add ability for self to edit their info rather than only an admin
+// TODO: add ability for self to edit their info rather than only an admin
 router.put(
   '/api/organizers/:organizerId',
   auth.checkToken,
