@@ -167,6 +167,33 @@ describe('Organizers', () => {
           done();
         });
     });
+
+    it('should fail to query all created organizers without token', done => {
+      chai
+        .request(server)
+        .get('/api/organizers')
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('success').eql(false);
+          done();
+        });
+    });
+
+    it('should query all created organizers', done => {
+      chai
+        .request(server)
+        .get('/api/organizers')
+        .set('Authorization', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('success').eql(true);
+          res.body.should.have.property('organizers');
+          done();
+        });
+    });
+
   });
 
   describe('Example new test suite', () => {});

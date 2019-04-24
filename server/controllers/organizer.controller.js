@@ -83,7 +83,12 @@ function create(req, res) {
   }
 }
 
-function findAll(req, res) {}
+function findAll(req, res) {
+  OrganizerModel.find({}, (err, organizers) => {
+    if (err) throw err;
+    res.send({ success: true, organizers });
+  });
+}
 
 function findOne(req, res) {}
 
