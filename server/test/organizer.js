@@ -260,6 +260,20 @@ describe('Organizers', () => {
       });
     });
 
+    it('should successfully delete new organizer', done => {
+      let organizer = organizers.filter(organizer => organizer.email === 'bob.alice@bu.edu')[0];
+      chai
+      .request(server)
+      .delete(`/api/organizers/${organizer._id}`)
+      .set('Authorization', token)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('success').eql(true);
+        done();
+      });
+    });
+
   });
 
   describe('Example new test suite', () => {});
