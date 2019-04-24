@@ -1,7 +1,7 @@
 const express = require('express');
-const routes = require('./routes');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const routes = require('./routes');
 const config = require('./config');
 const seed = require('./admin-seed');
 
