@@ -17,7 +17,7 @@ router.delete('/api/applicants/:applicantId', applicants.deleteOne);
 router.put('/api/applicants/:applicantId', applicants.updateOne);
 
 // specify api routes for organizers
-router.get('/api/organizers', organizers.findAll);
+router.get('/api/organizers', auth.checkToken, organizers.isOrganizer, organizers.findAll);
 router.post('/api/organizers', auth.checkToken, organizers.isAdmin, organizers.create);
 router.get('/api/organizers/:organizerId', organizers.findOne);
 router.delete('/api/organizers/:organizerId', organizers.deleteOne);

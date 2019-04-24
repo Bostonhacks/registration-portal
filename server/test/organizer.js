@@ -20,7 +20,7 @@ describe('Organizers', () => {
   });
 
   describe('Test managing organizers', () => {
-    let token;
+    let token = "";
     it('should log in as the default admin', done => {
       chai
         .request(server)
@@ -32,6 +32,29 @@ describe('Organizers', () => {
           res.body.should.have.property('success').eql(true);
           res.body.should.have.property('token');
           token = res.body.token;
+          done();
+        });
+    });
+
+    it('should fail to create an organizer with an invalid email', done => {
+      let organizer = {
+        firstName: 'Bob',
+        lastName: 'Alice',
+        email: 'bob.alice',
+        password: 'testpassword',
+        admin: true,
+        checkIn: true,
+        admission: true
+      };
+      chai
+        .request(server)
+        .post('/api/organizers')
+        .set('Authorization', token)
+        .send(organizer)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.should.be.a('object');
+          res.body.should.have.property('success').eql(false);
           done();
         });
     });
@@ -55,6 +78,32 @@ describe('Organizers', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('success').eql(true);
+          done();
+        });
+    });
+
+    it('should fail to log in as organizer that has yet to be created', done => {
+      chai
+        .request(server)
+        .post('/api/login')
+        .send({ email: 'doesntexist@bu.edu', password: 'wrongpassword' })
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.should.be.a('object');
+          res.body.should.have.property('success').eql(false);
+          done();
+        });
+    });
+
+    it('should fail to log in as new organizer with incorrect password', done => {
+      chai
+        .request(server)
+        .post('/api/login')
+        .send({ email: 'bob.alice@bu.edu', password: 'wrongpassword' })
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.should.be.a('object');
+          res.body.should.have.property('success').eql(false);
           done();
         });
     });
