@@ -19,9 +19,25 @@ router.put('/api/applicants/:applicantId', applicants.updateOne);
 // specify api routes for organizers
 router.get('/api/organizers', auth.checkToken, organizers.isOrganizer, organizers.findAll);
 router.post('/api/organizers', auth.checkToken, organizers.isAdmin, organizers.create);
-router.get('/api/organizers/:organizerId', organizers.findOne);
-router.delete('/api/organizers/:organizerId', organizers.deleteOne);
-router.put('/api/organizers/:organizerId', organizers.updateOne);
+router.get(
+  '/api/organizers/:organizerId',
+  auth.checkToken,
+  organizers.isOrganizer,
+  organizers.findOne
+);
+router.delete(
+  '/api/organizers/:organizerId',
+  auth.checkToken,
+  organizers.isAdmin,
+  organizers.deleteOne
+);
+// add ability for self to edit their info rather than only an admin
+router.put(
+  '/api/organizers/:organizerId',
+  auth.checkToken,
+  organizers.isAdmin,
+  organizers.updateOne
+);
 
 // specify api routes for application questions
 router.get('/api/questions', questions.findAll);

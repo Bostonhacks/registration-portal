@@ -3,6 +3,7 @@ const auth = require('../auth');
 const OrganizerModel = require('../models/organizer.model');
 const ApplicantModel = require('../models/applicant.model');
 
+// Checks if a user is an organizer then exectues the next function if they are
 function isOrganizer(req, res, next) {
   if (req.decoded.organizer) {
     next();
@@ -11,6 +12,7 @@ function isOrganizer(req, res, next) {
   }
 }
 
+// Checks if an organizer has admin privlages then executes the next function if they do
 function isAdmin(req, res, next) {
   if (req.decoded.admin) {
     next();
@@ -83,18 +85,57 @@ function create(req, res) {
   }
 }
 
+// Finds all organizers
 function findAll(req, res) {
-  OrganizerModel.find({}, (err, organizers) => {
+  OrganizerModel.find({}, { passwordHash: 0 }, (err, organizers) => {
     if (err) throw err;
     res.send({ success: true, organizers });
   });
 }
 
-function findOne(req, res) {}
+// Finds an organizer by ID
+function findOne(req, res) {
+  const id = req.params.organizerId;
+  OrganizerModel.findById(id, { passwordHash: 0 }, (err, organizer) => {
+    if (err) throw err;
+    res.send({ success: true, organizer });
+  });
+}
 
-function deleteOne(req, res) {}
+// Deletes an organizer by ID
+function deleteOne(req, res) {
+  const id = req.params.organizerId;
+  OrganizerModel.findByIdAndDelete(id, (err, organizer) => {
+    if (err) throw err;
+    if (organizer) {
+      res.send({ success: true, message: 'successfully removed' });
+    } else {
+      res.send({ success: false, message: 'organizer does not exist' });
+    }
+  });
+}
 
-function updateOne(req, res) {}
+/*
+ * Updates an organizer by ID
+ * will only update first or last name, and admission/admin/checkin privlages
+ */
+function updateOne(req, res) {
+  const id = req.params.organizerId;
+  const updates = {};
+  updates.firstName = req.body.firstName ? req.body.firstName : undefined;
+  updates.lastName = req.body.lastName ? req.body.lastName : undefined;
+  updates.admin = req.body.isAdmin ? req.body.isAdmin : undefined;
+  updates.admission = req.body.admission ? req.body.admission : undefined;
+  updates.checkIn = req.body.checkIn ? req.body.checkIn : undefined;
+  OrganizerModel.findByIdAndUpdate(id, (err, organizer) => {
+    if (err) throw err;
+    if (organizer) {
+      res.send({ success: true, organizer });
+    } else {
+      res.send({ success: false, message: 'organizer does not exist' });
+    }
+  });
+}
 
 module.exports = {
   isOrganizer,
