@@ -5,9 +5,9 @@ const applicantSchema = mongoose.Schema(
     firstName: String,
     lastName: String,
     email: String,
-    // location: ???,
-    resumePath: String
-    // applicationQuestions: ???,
+    passwordHash: String,
+    resume: String,
+    applicationResponses: [{ type: String }]
   },
   {
     timestamps: true
