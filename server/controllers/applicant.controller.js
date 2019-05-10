@@ -68,14 +68,37 @@ function create(req, res) {
 
 // returns a list of all applicants
 function findAll(req, res) {
-  ApplicantModel.find()
-    .then(applicants => res.send(applicants))
-    .catch(err => res.status(500).send({ message: err.message }));
+  ApplicantModel.find({}, { passwordHash: 0 }, (err, applicants) => {
+    if (err) throw err;
+    res.send({ success: true, applicants });
+  });
 }
 
-function findOne(req, res) {}
+// returns the applicant with the matching id
+function findOne(req, res) {
+  const id = req.params.applicantId;
+  ApplicantModel.findById(id, { passwordHash: 0 }, (err, applicant) => {
+    if (err) throw err;
+    if (applicant) {
+      res.send({ success: true, applicant });
+    } else {
+      res.send({ success: false, message: 'applicant does not exist' });
+    }
+  });
+}
 
-function deleteOne(req, res) {}
+// deletes an applicant with the matching id
+function deleteOne(req, res) {
+  const id = req.params.applicantId;
+  ApplicantModel.findByIdAndDelete(id, (err, applicant) => {
+    if (err) throw err;
+    if (applicant) {
+      res.send({ success: true, message: 'successfully removed' });
+    } else {
+      res.send({ success: false, message: 'applicant does not exist' });
+    }
+  });
+}
 
 function updateOne(req, res) {}
 
