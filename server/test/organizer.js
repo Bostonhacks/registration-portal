@@ -7,8 +7,6 @@ const organizerModel = require('../models/organizer.model');
 const seed = require('../admin-seed');
 chai.should();
 
-process.env.NODE_ENV = 'test';
-
 chai.use(chaiHttp);
 
 describe('Organizers', () => {
