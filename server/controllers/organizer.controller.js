@@ -106,7 +106,11 @@ function findOne(req, res) {
   const id = req.params.organizerId;
   OrganizerModel.findById(id, { passwordHash: 0 }, (err, organizer) => {
     if (err) throw err;
-    res.send({ success: true, organizer });
+    if (organizer) {
+      res.send({ success: true, organizer });
+    } else {
+      res.send({ success: false, message: 'organizer does not exist' });
+    }
   });
 }
 
