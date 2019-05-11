@@ -10,11 +10,21 @@ const router = express.Router();
 router.post('/api/login', auth.login);
 
 // specify api routes for applicants
-router.get('/api/applicants', applicants.findAll);
+router.get('/api/applicants', auth.checkToken, organizers.isOrganizer, applicants.findAll);
 router.post('/api/applicants', applicants.create);
-router.get('/api/applicants/:applicantId', applicants.findOne);
-router.delete('/api/applicants/:applicantId', applicants.deleteOne);
-router.put('/api/applicants/:applicantId', applicants.updateOne);
+router.get('/api/applicants/:applicantId', auth.checkToken, applicants.isSelf, applicants.findOne);
+router.delete(
+  '/api/applicants/:applicantId',
+  auth.checkToken,
+  organizers.isAdmin,
+  applicants.deleteOne
+);
+router.put(
+  '/api/applicants/:applicantId',
+  auth.checkToken,
+  applicants.isSelf,
+  applicants.updateOne
+);
 
 // specify api routes for organizers
 router.get('/api/organizers', auth.checkToken, organizers.isOrganizer, organizers.findAll);

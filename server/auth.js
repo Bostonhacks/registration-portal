@@ -31,11 +31,29 @@ function checkToken(req, res, next) {
   });
 }
 
-// TODO: authenticate applicant
+// authenticates an applicant and sends back their JWT token
 function authenticateApplicant(req, res, applicant) {
   if (!bcrypt.compareSync(req.body.password, applicant.passwordHash)) {
     res.status(403).send({ success: false, message: 'Incorrect Password' });
+    return;
   }
+
+  const token = jwt.sign(
+    {
+      email: req.body.email,
+      applicant: true,
+      // eslint-disable-next-line no-underscore-dangle
+      mongoId: applicant._id
+    },
+    config.secret,
+    { expiresIn: '24h' }
+  );
+
+  res.json({
+    success: true,
+    message: 'Authentication Successful!',
+    token
+  });
 }
 
 // authenticates an organizer and sends back their JWT token
