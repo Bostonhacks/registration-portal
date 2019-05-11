@@ -3,19 +3,12 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../server');
-const organizerModel = require('../models/organizer.model');
 const seed = require('../admin-seed');
-chai.should();
 
+chai.should();
 chai.use(chaiHttp);
 
 describe('Organizers', () => {
-  it('should clear the test database', done => {
-    organizerModel.deleteMany({}, async err => {
-      await seed.createAdmin();
-      done();
-    });
-  });
 
   describe('Test managing organizers', () => {
     let token = "";
@@ -80,7 +73,7 @@ describe('Organizers', () => {
         });
     });
 
-    it('should fail to log in as organizer that has yet to be created', done => {
+    it('should fail to login as organizer that has yet to be created', done => {
       chai
         .request(server)
         .post('/api/login')
@@ -93,7 +86,7 @@ describe('Organizers', () => {
         });
     });
 
-    it('should fail to log in as new organizer with incorrect password', done => {
+    it('should fail to login as new organizer with incorrect password', done => {
       chai
         .request(server)
         .post('/api/login')
@@ -107,7 +100,7 @@ describe('Organizers', () => {
     });
 
     let unprivilegedToken = "";
-    it('should log in as new organizer', done => {
+    it('should login as new organizer', done => {
       chai
         .request(server)
         .post('/api/login')
