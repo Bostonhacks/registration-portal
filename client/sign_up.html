@@ -11,28 +11,34 @@
         <script id="welcome to handlebars" type="text/x-handlebars-template">
           <div class="container">
             <div class="row">
-              <p>Welcome to {{Hackathon}} 2019 Registration Portal</p>
+              <p>Create an Account</p>
             </div>
-            <div class="container" style = "background-color: gray;">
-              <form method="post" action="/">
-                <div class="row">
-                  <p>Email</p><br>
-                  <input type="text" name="email">
-                </div>
-                <div class="row">
-                  <p>Password</p><br>
-                  <input type="password" name="password">
-                </div>
-                <div class="row">
-                  <div class="text-center">
-                    <input type="submit" value="Log In">
-                  </div>
-                </div>
-                <div class="row">
-                  <a href="/sign_up.html" class="button">Sign up</a>
-                </div>
-              </form>
-            </div>
+            <form method="post" action="/sign_up">
+              <div class="row">
+                <p>Email</p>
+              </div>
+              <div class="row">
+                <input type="text" name="email">
+              </div>
+              <div class="row">
+                <p>Password</p><br>
+              </div>
+              <div class="row">
+                <input type="password" name="password">
+              </div>
+              <div class="row">
+                <p>Confirm Password</p><br>
+              </div>
+              <div class="row">
+                <input type="confirm_password" name="password">
+              </div>
+              <div class="row">
+                <input type="submit" value="Log In">
+              </div>
+              <div class="row">
+                <a href="/" class="button">Back</a>
+              </div>
+            </form>
           </div>
         </script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
