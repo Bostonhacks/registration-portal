@@ -61,4 +61,7 @@ router.get('/sign_up', (req, resp) => resp.render(`${req.baseUrl}/sign_up.html`)
 // home screen
 router.get('/home', (req, resp) => resp.render(`${req.baseUrl}/home.html`));
 
+// home screen
+router.get('/application', (req, resp) => resp.render(`${req.baseUrl}/application.html`));
+
 module.exports = router;
