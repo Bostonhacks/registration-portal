@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <meta charset="UTF-8"/>
+        <title>Application Portal</title>
+    </head>
+    <body>
+        <div id="test"></div>
+        <script src="handlebars-v4.1.1.js"></script>
+        <script id="welcome to handlebars" type="text/x-handlebars-template">
+          <div class="container">
+
+            <div class="container">
+              <form method="post" action="/">
+                <div class="row">
+                  <div class="col">
+                  </div>
+                    <div class="col" style="background-color: gray">
+                      <div class="row">
+                        <p>Registration Portal</p>
+                      </div>
+                      <div class="row">
+                        <p>First and last name</p>
+                      </div>
+                      <div class="row">
+                        <input type="text" placeholder="John Doe" style="width:100%">
+                      </div>
+                      <br/>
+                      <div class="row">
+                        <p>Dietary restrictions</p>
+                      </div>
+                      <div class="row">
+                        <form action="">
+                          <div class="container">
+                              <div class="row">
+                                <input type="radio" name="dietary"> Vegan<br>
+                              </div>
+                              <div class="row">
+                                <input type="radio" name="dietary"> Vegetarian<br>
+                              </div>
+                              <div class="row">
+                                <input type="radio" name="dietary"> Kosher<br>
+                              </div>
+                              <div class="row">
+                                <input type="text" placeholder="dietary" name="other-dietary" style="width:90%">
+                              </div>
+                          </div>
+                        </form>
+                      </div>
+                      <br/>
+                      <div class="row">
+                        <p>Any allergies?</p>
+                      </div>
+                      <div class="row">
+                        <input type="text" placeholder="allergy" style="width:90%">
+                      </div>
+                      <br/>
+                      <div class="row">
+                        <p>Sweatshirt sizes?</p>
+                      </div>
+                      <div class="row">
+                        <form action="">
+                          <div class="container">
+                              <div class="row">
+                                <input type="radio" name="sweatshirt"> Small<br>
+                              </div>
+                              <div class="row">
+                                <input type="radio" name="sweatshirt"> Medium<br>
+                              </div>
+                              <div class="row">
+                                <input type="radio" name="sweatshirt"> Large<br>
+                              </div>
+                              <div class="row">
+                                <input type="radio" name="sweatshirt"> Extra Large<br>
+                              </div>
+                              <div class="row">
+                                <input type="radio" name="sweatshirt"> <input type="text" placeholder="Other" name="other-dietary" style="width:90%"><br>
+                              </div>
+                          </div>
+                        </form>
+                      </div>
+                      <br/>
+                      <div class="row">
+                        <p>Where are you travelling from?</p>
+                      </div>
+                      <div class="row">
+                        <form action="">
+                          <div class="container">
+                              <div class="row">
+                                <input type="radio" name="travel"> New York<br>
+                              </div>
+                              <div class="row">
+                                <input type="radio" name="travel"> Boston<br>
+                              </div>
+                              <div class="row">
+                                <input type="radio" name="travel"> Canada<br>
+                              </div>
+                              <div class="row">
+                                <input type="radio" name="travel"> <input type="text" placeholder="Other" name="other-travel" style="width:90%"><br>
+                              </div>
+                        </div>
+                        </form>
+                      </div>
+                      <br/>
+                      <div class="row">
+                        <div class="col">
+                        </div>
+                        <div class="row">
+                          <input type="submit" value="Log In">
+                        </div>
+                        <div class="col">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                        </div>
+                        <div class="row">
+                          <a href="/sign_up.html" class="button">Sign up</a>
+                        </div>
+                        <div class="col">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="script.js"></script>
+    </body>
+</html>
