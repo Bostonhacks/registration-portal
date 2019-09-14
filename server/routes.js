@@ -58,4 +58,7 @@ router.get('/', (req, resp) => resp.redirect(`${req.baseUrl}/welcome.html`));
 // sign up screen
 router.get('/sign_up', (req, resp) => resp.render(`${req.baseUrl}/sign_up.html`));
 
+// home screen
+router.get('/home', (req, resp) => resp.render(`${req.baseUrl}/home.html`));
+
 module.exports = router;

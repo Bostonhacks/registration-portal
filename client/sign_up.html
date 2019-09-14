@@ -3,42 +3,56 @@
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <meta charset="UTF-8"/>
-        <title>Welcome</title>
+        <title>Create an Account</title>
     </head>
     <body>
         <div id="test"></div>
         <script src="handlebars-v4.1.1.js"></script>
         <script id="welcome to handlebars" type="text/x-handlebars-template">
           <div class="container">
-            <div class="row">
-              <p>Create an Account</p>
+
+            <div class="container">
+              <form method="post" action="/sign_up">
+                <div class="row">
+                  <div class="col">
+                  </div>
+                    <div class="col" style="background-color: gray">
+                      <div class="row">
+                        <p>Create an Account</p>
+                      </div>
+                      <div class="row">
+                        <input type="text" placeholder="johndoe@bu.edu" name="email" style="width:100%">
+                      </div>
+                      <div class="row">
+                        <input type="password" placeholder="goTerriers" name="password" style="width:100%">
+                      </div>
+                      <div class="row">
+                        <input type="password" placeholder="confirmGoTerriers" name="confirm_password" style="width:100%">
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                        </div>
+                        <div class="row">
+                          <input type="submit" value="Log In">
+                        </div>
+                        <div class="col">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                        </div>
+                        <div class="row">
+                          <a href="/" class="button">Back</a>
+                        </div>
+                        <div class="col">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+              </form>
             </div>
-            <form method="post" action="/sign_up">
-              <div class="row">
-                <p>Email</p>
-              </div>
-              <div class="row">
-                <input type="text" name="email">
-              </div>
-              <div class="row">
-                <p>Password</p><br>
-              </div>
-              <div class="row">
-                <input type="password" name="password">
-              </div>
-              <div class="row">
-                <p>Confirm Password</p><br>
-              </div>
-              <div class="row">
-                <input type="confirm_password" name="password">
-              </div>
-              <div class="row">
-                <input type="submit" value="Log In">
-              </div>
-              <div class="row">
-                <a href="/" class="button">Back</a>
-              </div>
-            </form>
           </div>
         </script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
