@@ -55,4 +55,7 @@ router.get('/api/questions', questions.findAll);
 // redirect all trafic to home page
 router.get('/', (req, resp) => resp.redirect(`${req.baseUrl}/welcome.html`));
 
+// sign up screen
+router.get('/sign_up', (req, resp) => resp.render(`${req.baseUrl}/sign_up.html`));
+
 module.exports = router;
